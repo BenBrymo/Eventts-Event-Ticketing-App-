@@ -1,0 +1,213 @@
+package com.example.eventts.navigation
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import com.example.eventts.SplashScreen
+import com.example.eventts.admin.event_management.CreateEventScreen
+import com.example.eventts.admin.event_management.EventsMgmtScreen
+//import com.example.eventts.WelcomeScreen
+//import com.example.eventts.admin.*
+import com.example.eventts.admin.main_screen.AdminMainScreen
+import com.example.eventts.admin.main_screen.AdminProfileScreen
+import com.example.eventts.common.create_account.CreateAccountScreen
+import com.example.eventts.common.email_verification.EmailVerificationScreen
+import com.example.eventts.common.Login.LoginScreen
+import com.example.eventts.common.password_reset.PasswordRecoveryScreen
+import com.example.eventts.common.password_reset.PasswordResetConfirmationScreen
+import com.example.eventts.user.UserMainScreen
+
+//import com.example.eventts.organizer.OrganizerMainScreen
+//import com.example.eventts.payment.PaymentScreen
+//import com.example.eventts.user.UserMainScreen
+//import com.example.eventts.user.UserProfileScreen
+
+
+object Routes {
+    const val LOGOUT_SCREEN = "logout_screen"
+    const val SPLASH_SCREEN = "splash_screen"
+    const val WELCOME_SCREEN = "welcome_screen"
+    const val GET_STARTED_SCREEN = "get_Started_screen"
+    const val LOGIN_SCREEN = "login_screen"
+    const val CREATE_ACCOUNT_SCREEN = "create_account_screen"
+    const val PASSWORD_RECOVERY_SCREEN = "password_recovery_screen"
+    const val PASSWORD_RESET_CONFIRMATION_SCREEN = "password_reset_confirmation_screen"
+    const val EMAIL_VERIFICATION_SCREEN = "email_verification_screen"
+    const val ORGANIZER_MAIN_SCREEN = "organizer_main_screen"
+    const val USER_MAIN_SCREEN = "user_main_screen"
+    const val ADMIN_MAIN_SCREEN = "admin_main_screen/{username}"
+    const val EVENTS_MANAGEMENT_SCREEN = "events_management_screen"
+    const val CREATE_EVENT_SCREEN = "create_event_screen"
+    const val ADMIN_PROFILE_SCREEN = "admin_profile_screen"
+    const val USER_PROFILE_SCREEN = "user_profile_screen"
+    const val BOOKMARKS_SCREEN = "bookmarks_screen"
+    const val TICKETS_SCREEN = "tickets_screen"
+    const val EDIT_EVENT_SCREEN = "edit_event_screen/{eventId}"
+    const val DRAFTED_EVENTS_SCREEN = "drafted_events_screen"
+    const val ADMIN_SEARCH_SCREEN = "admin_search_screen"
+    const val USER_SEARCH_SCREEN = "user_search_screen"
+    const val FILTER_SEARCH_SCREEN = "filter_search_screen"
+    const val FILTERED_RESULT_SCREEN = "filtered_result_screen"
+    const val DETAILED_EVENT_SCREEN = "detailed_event_screen"
+    const val COPY_EVENT_SCREEN = "copy_event_screen/{eventId}"
+    const val DETAILED_EVENT_SCREEN_ADMIN = "detailed_event_screen_admin"
+    const val TICKET_MANAGEMENT_SCREEN = "ticket_management_screen"
+    const val USER_MANAGEMENT_SCREEN = "user_management_screen"
+    const val USER_MANAGEMENT_SEARCH_SCREEN = "user_management_search_screen"
+    const val PAYMENT_SCREEN = "payment_screen"
+
+}
+
+@Composable
+fun NavGraph(navController: NavHostController) {
+
+    val context = LocalContext.current
+
+    //defines a navhost and sets WelcomeScreen as the startDestination
+    NavHost(navController = navController , startDestination = Routes.SPLASH_SCREEN) {
+        // defines SPLASH_SCREEN  route
+        composable(Routes.SPLASH_SCREEN) {
+            SplashScreen(navController = navController)
+        }
+
+        // defines login screen route
+      composable(Routes.LOGIN_SCREEN) {
+          LoginScreen(navController = navController)
+      }
+
+         //defines create account screen route
+        composable(Routes.CREATE_ACCOUNT_SCREEN) {
+            CreateAccountScreen(navController = navController)
+        }
+
+        //defines password recovery screen route
+        composable(Routes.PASSWORD_RECOVERY_SCREEN) {
+            PasswordRecoveryScreen(navController = navController)
+        }
+
+        // defines password reset confirmation screen route
+        composable(Routes.PASSWORD_RESET_CONFIRMATION_SCREEN) {
+            PasswordResetConfirmationScreen(navController = navController)
+        }
+
+        // defines password reset confirmation screen route
+        composable(Routes.EMAIL_VERIFICATION_SCREEN) {
+            EmailVerificationScreen(navController = navController)
+        }
+
+        // defines admin main screen route
+        composable(Routes.ADMIN_MAIN_SCREEN) {
+            AdminMainScreen(navController = navController)
+        }
+
+         //defines create admin profile screen route
+        composable(Routes.ADMIN_PROFILE_SCREEN) {
+            AdminProfileScreen(navController = navController)
+        }
+
+        //defines events management screen route
+        composable(Routes.EVENTS_MANAGEMENT_SCREEN) {
+            EventsMgmtScreen(navController = navController)
+        }
+
+
+        // defines create event screen route
+        composable(Routes.CREATE_EVENT_SCREEN) {
+           CreateEventScreen(navController = navController)
+        }
+        
+        // defines user main screen route
+        composable(Routes.USER_MAIN_SCREEN) {
+            UserMainScreen(navController = navController)
+        }
+//
+//        // defines organizer main screen route
+//        composable(Routes.ORGANIZER_MAIN_SCREEN) {
+//            OrganizerMainScreen(navController = navController)
+//        }
+//
+//
+
+
+
+//
+//        // defines create admin profile screen route
+//        composable(Routes.USER_PROFILE_SCREEN) {
+//            UserProfileScreen(navController = navController, context = context)
+//        }
+//
+//        // defines edit event screen route
+//        composable(
+//            route = "edit_event_screen/{eventId}",
+//            arguments = listOf(navArgument("eventId") { type = NavType.StringType })
+//        ) { backStackEntry ->
+//            EditEventScreen(
+//                navController = navController,
+//                eventId = backStackEntry.arguments?.getString("eventId") ?: ""
+//            )
+//        }
+//
+//        // defines drafted events screen route
+//        composable(Routes.DRAFTED_EVENTS_SCREEN) {
+//            DraftedEventsScreen(navController = navController)
+//        }
+//
+//        // defines admin search screen route
+//        composable(Routes.ADMIN_SEARCH_SCREEN) {
+//            AdminSearchScreen(navController = navController)
+//        }
+//
+//        // defines filter result screen route
+//        composable(Routes.FILTER_SEARCH_SCREEN) {
+//            FilterSearchScreen(navController = navController)
+//        }
+//
+//        // defines filtered result screen route
+//        composable(Routes.FILTERED_RESULT_SCREEN) {
+//            FilteredResultScreen(navController = navController)
+//        }
+//
+//
+//
+//        // defines edit event screen route
+//        composable(
+//            route = "copy_event_screen/{eventId}",
+//            arguments = listOf(navArgument("eventId") { type = NavType.StringType })
+//        ) { backStackEntry ->
+//            CopyEventScreen(
+//                navController = navController,
+//                eventId = backStackEntry.arguments?.getString("eventId") ?: ""
+//            )
+//        }
+//
+//
+//
+//        // defines drafted events screen route
+//        composable(Routes.TICKET_MANAGEMENT_SCREEN) {
+//            TicketManagementScreen(navController = navController)
+//        }        // defines edit event screen route
+////        composable(
+////            route = "detailed_event_screen_admin/{eventId}",
+////            arguments = listOf(navArgument("eventId") { type = NavType.StringType })
+////        ) { backStackEntry ->
+////            DetailedEventScreenAdmin(
+////                navController = navController,
+////                eventId = backStackEntry.arguments?.getString("eventId") ?: ""
+////            )
+////        }
+//
+//        // defines filtered result screen route
+//        composable(Routes.USER_MANAGEMENT_SCREEN) {
+//            UserMgmtScreen(navController = navController)
+//        }
+//
+//        // defines filtered result screen route
+//        composable(Routes.USER_MANAGEMENT_SEARCH_SCREEN) {
+//            UserManagementSearchScreen(navController = navController)
+//        }
+    }
+}
