@@ -1,0 +1,145 @@
+package com.example.eventts.user
+
+import UserHomeScreen
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.AirplaneTicket
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Bookmarks
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.apptemplate.payment.PaymentScreen
+import com.example.eventts.navigation.Routes
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun UserMainScreen(navController: NavController, viewModel: UserViewModel = viewModel()) {
+    val bottomNavController = rememberNavController()
+
+    // Scaffold to provide a basic material layout structure
+    Scaffold(
+        bottomBar = { BottomNavigationBar(navController = bottomNavController) }
+    ) { paddingValues ->
+        // Surface to hold main contents with padding applied
+        Surface(Modifier.padding(paddingValues)) {
+            BottomNavGraph(navController = bottomNavController)
+        }
+    }
+}
+
+@Composable
+fun BottomNavigationBar(navController: NavHostController) {
+    val items = listOf(
+        BottomNavItem("Home", Icons.Default.Home, Routes.USER_MAIN_SCREEN),
+        BottomNavItem("Bookmarks", Icons.Default.Bookmarks, Routes.BOOKMARKS_SCREEN),
+        BottomNavItem("Tickets", Icons.AutoMirrored.Filled.AirplaneTicket, Routes.TICKETS_SCREEN),
+        BottomNavItem("Profile", Icons.Default.AccountCircle, Routes.USER_PROFILE_SCREEN)
+    )
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    NavigationBar(
+        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+    ) {
+        items.forEach { item ->
+            NavigationBarItem(
+                icon = {
+                    Icon(
+                        imageVector = item.icon,
+                        contentDescription = item.label
+                    )
+                },
+                label = {
+                    Text(item.label)
+                },
+                selected = currentRoute == item.route,
+                onClick = {
+                    navController.navigate(item.route) {
+                        popUpTo(navController.graph.startDestinationId) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
+            )
+        }
+    }
+}
+
+@Composable
+fun BottomNavGraph(navController: NavHostController) {
+    NavHost(navController = navController, startDestination = Routes.USER_MAIN_SCREEN) {
+        composable(Routes.USER_MAIN_SCREEN) {
+            HomeScreen(navController = navController)
+        }
+//        composable(Routes.BOOKMARKS_SCREEN) {
+//            BookmarksScreen(navController = navController)
+//        }
+//        composable(Routes.TICKETS_SCREEN) {
+//            TicketsScreen(navController = navController)
+//        }
+//        composable(Routes.USER_PROFILE_SCREEN) {
+//            UserProfileScreen(navController = navController)
+//        }
+//        // defines admin search screen route
+//        composable(Routes.USER_SEARCH_SCREEN) {
+//            UserSearchScreen(navController = navController)
+//        }
+
+        // defines edit event screen route
+        composable(
+            route = "detailed_event_screen/{eventId}",
+            arguments = listOf(navArgument("eventId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            DetailedEventScreen(
+                navController = navController,
+                eventId = backStackEntry.arguments?.getString("eventId") ?: ""
+            )
+        }
+
+        // defines filtered result screen route
+        composable(Routes.PAYMENT_SCREEN) {
+            PaymentScreen(navController = navController)
+        }
+
+    }
+}
+
+@Composable
+fun HomeScreen(navController: NavController) {
+    UserHomeScreen(navController = navController)
+}
+
+//@Composable
+//fun BookmarksScreen(navController: NavController) {
+//    UserBookmarksScreen(navController = navController)
+//}
+//
+//@Composable
+//fun TicketsScreen(navController: NavController) {
+//    UserTicketScreen(navController = navController)
+//}
+//
+//@Composable
+//fun UserProfileScreen(navController: NavController) {
+//    val context = LocalContext.current
+//    UserProfileScreen(navController = navController, context = context)
+//}
+
+data class BottomNavItem(val label: String, val icon: ImageVector, val route: String)
